@@ -5,7 +5,8 @@ import Contact from './Pages/Contact'
 import EditContact from './Pages/EditContact'
 import ErrorPage from './Pages/ErrorPage'
 import Root from './Root/Root'
-import { createContactsAction } from './components/action'
+import Index from './components/Index'
+import { createContactsAction, deleteContactAction, editContactAction } from './components/action'
 import { getContactLoader, getContactsLoader } from './components/loader'
 import './index.css'
 
@@ -17,6 +18,9 @@ const router = createBrowserRouter([
     loader: getContactsLoader,
     action:createContactsAction,
     children: [
+      { index: true, 
+        element: <Index/>
+       },
       {
         path: '/contacts/:contactId',
         element: <Contact/>,
@@ -26,6 +30,12 @@ const router = createBrowserRouter([
         path: "contacts/:contactId/edit",
         element: <EditContact />,
         loader: getContactLoader,
+        action: editContactAction
+      },
+      {
+        path: "contacts/:contactId/destroy",
+        action: deleteContactAction,
+        errorElement: <div>Oops! There was an error Deleting the Contact</div>
       },
     ]
   },
