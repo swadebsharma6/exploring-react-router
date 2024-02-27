@@ -8,6 +8,7 @@ import Root from './Root/Root'
 import Index from './components/Index'
 import { createContactsAction, deleteContactAction, editContactAction } from './components/action'
 import { getContactLoader, getContactsLoader } from './components/loader'
+import { UpdateContactFavorite } from './contacts'
 import './index.css'
 
 const router = createBrowserRouter([
@@ -18,25 +19,31 @@ const router = createBrowserRouter([
     loader: getContactsLoader,
     action:createContactsAction,
     children: [
-      { index: true, 
-        element: <Index/>
-       },
       {
-        path: '/contacts/:contactId',
-        element: <Contact/>,
-        loader: getContactLoader
-      },
-      {
-        path: "contacts/:contactId/edit",
-        element: <EditContact />,
-        loader: getContactLoader,
-        action: editContactAction
-      },
-      {
-        path: "contacts/:contactId/destroy",
-        action: deleteContactAction,
-        errorElement: <div>Oops! There was an error Deleting the Contact</div>
-      },
+        errorElement: <ErrorPage/>,
+        children: [
+          { index: true, 
+            element: <Index/>
+           },
+          {
+            path: '/contacts/:contactId',
+            element: <Contact/>,
+            loader: getContactLoader,
+            action: UpdateContactFavorite
+          },
+          {
+            path: "contacts/:contactId/edit",
+            element: <EditContact />,
+            loader: getContactLoader,
+            action: editContactAction
+          },
+          {
+            path: "contacts/:contactId/destroy",
+            action: deleteContactAction,
+            errorElement: <div>Oops! There was an error Deleting the Contact</div>
+          },
+        ]
+      }
     ]
   },
 

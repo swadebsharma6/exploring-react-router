@@ -50,6 +50,15 @@ export async function deleteContact(id) {
   return false;
 }
 
+export async function UpdateContactFavorite({ request, params }) {
+  let formData = await request.formData();
+  return updateContact(params.contactId, {
+    favorite: formData.get("favorite") === "true",
+  });
+}
+
+
+
 function set(contacts) {
   return localforage.setItem("contacts", contacts);
 }
